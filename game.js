@@ -91,3 +91,5 @@ function update() {
     console.log(hex_to_colour(red, green, blue));
     background.style = "background-color: " + hex_to_colour(red, green, blue);
 };
+
+update()
