@@ -45,27 +45,48 @@ let x = 0;
 let y = 0;
 let r = 0;
 
-let objects = [[0, 1, 0, -1], [0, 5, 0, 4]];
+let objects = [[200, 1, 200, -1], [0, 5, 0, 4], [-100, -5, -100, -10]];
 
 const background = document.getElementById("background");
 background.style = "background-color: #000000";
 background.addEventListener("keydown", function(event) {
-    if (event.code == "KeyD") {
-        x += 1;
-      };
-    if (event.code == "KeyA") {
-        x -= 1;
-    };
     if (event.code == "KeyW") {
-        y += 1;
-    };
+        if (r == 0) {
+            x += 1;
+        }
+        else {
+            x -= 1;
+        }
+      };
     if (event.code == "KeyS") {
-        y -= 1;
+        if (r == 180) {
+            x += 1;
+        }
+        else {
+            x -= 1;
+        }
     };
-    if (event.code == "ArrowLeft") {
+    if (event.code == "KeyA") {
+        if (r == 0) {
+            y += 1;
+        }
+        else {
+            y -= 1;
+        };
+    };
+    if (event.code == "KeyD") {
+        if (r == 180) {
+            y += 1;
+        }
+        else {
+            y -= 1;
+        };
+    };
+
+    if (event.code == "ArrowDown") {
         r = 180;
     };
-    if (event.code == "ArrowRight") {
+    if (event.code == "ArrowUp") {
         r = 0;
     };
     update();
@@ -75,15 +96,15 @@ function update() {
     console.log(x, y, r);
     blue = "00";
     for (let i = 0; i < objects.length; i++) {
-        if (x <= 0 && r == 0) {
-            if (y <= objects[i][1] && y >= objects[i][3] && x > -255) {
-                blue = dec_to_hex(255 + x);
+        if (x <= objects[i][0] && r == 0) {
+            if (y <= objects[i][1] && y >= objects[i][3] && x >= objects[i][0] - 255) {
+                blue = dec_to_hex(255 + x - objects[i][0]);
             };
             continue;
         };
-        if (x >= 0 && r == 180) {
-            if (y <= objects[i][1] && y >= objects[i][3] && x < 255) {
-                blue = dec_to_hex(255 - x);
+        if (x >= objects[i][2] && r == 180) {
+            if (y <= objects[i][1] && y >= objects[i][3] && x <= objects[i][2] + 255) {
+                blue = dec_to_hex(255 - x + objects[i][2]);
             };
         };
     };
