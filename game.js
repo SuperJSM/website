@@ -45,7 +45,7 @@ let x = 0;
 let y = 0;
 let r = 0;
 
-let objects = [[200, 1, 200, -1], [0, 5, 0, 4], [-100, -5, -100, -10]];
+let objects = [[200, 1, 210, -1], [0, 5, 0, 4], [-100, -5, -100, -10]];
 
 const background = document.getElementById("background");
 background.style = "background-color: #000000";
@@ -53,44 +53,145 @@ background.addEventListener("keydown", function(event) {
     if (event.code == "KeyW") {
         if (r == 0) {
             x += 1;
+            if (collide(0) == true) {
+                x -= 1;
+            };
+        }
+        else if (r == 180) {
+            x -= 1;
+            if (collide(0) == true) {
+                x += 1;
+            };
+        }
+        else if (r == 270) {
+            y += 1;
+            if (collide(1) == true) {
+                y -= 1;
+            };
         }
         else {
-            x -= 1;
-        }
+            y -= 1;
+            if (collide(1) == true) {
+                y += 1;
+            };
+        };
       };
     if (event.code == "KeyS") {
-        if (r == 180) {
+        if (r == 0) {
+            x -= 1;
+            if (collide(0) == true) {
+                x += 1;
+            };
+        }
+        else if (r == 180) {
             x += 1;
+            if (collide(0) == true) {
+                x -= 1;
+            };
+        }
+        else if (r == 270) {
+            y -= 1;
+            if (collide(1) == true)  {
+                y += 1;
+            };
         }
         else {
-            x -= 1;
-        }
+            y += 1;
+            if (collide(1) == true) {
+                y -= 1;
+            };
+        };
     };
     if (event.code == "KeyA") {
         if (r == 0) {
             y += 1;
+            if (collide(1) == true) {
+                y -= 1;
+            };
+        }
+        else if (r == 180) {
+            y -= 1;
+            if (collide(1) == true) {
+                y += 1;
+            };
+        }
+        else if (r == 270) {
+            x -= 1;
+            if (collide(0) == true) {
+                x += 1;
+            };
         }
         else {
-            y -= 1;
+            x += 1;
+            if (collide(0) == true) {
+                x -= 1;
+            };
         };
     };
     if (event.code == "KeyD") {
-        if (r == 180) {
+        if (r == 0) {
+            y -= 1;
+            if (collide(1) == true) {
+                y += 1;
+            };
+        }
+        else if (r == 180) {
             y += 1;
+            if (collide(1) == true) {
+                y -= 1;
+            };
+        }
+        else if (r == 270) {
+            x += 1;
+            if (collide(0) == true) {
+                x -= 1;
+            };
         }
         else {
-            y -= 1;
+            x -= 1;
+            if (collide(0) == true) {
+                x += 1;
+            };
         };
     };
 
-    if (event.code == "ArrowDown") {
-        r = 180;
+    if (event.code == "ArrowLeft") {
+        if (r == 0) {
+            r = 270;
+        }
+        else {
+            r -= 90;
+        };
     };
-    if (event.code == "ArrowUp") {
-        r = 0;
-    };
+    if(event.code == "ArrowRight") {
+        if (r == 270) {
+            r = 0;
+        }
+        else {
+            r += 90;
+        };
+    }
+
     update();
 });
+
+function collide(dir) {
+    if (dir == 0) {
+        for (let i = 0; i > objects.length; i++) {
+            if (x == object[i][0] || x == objects[i][2]) {
+                return true;
+            };
+        };
+    }
+    else {
+        for (let i = 0; i > objects.length; i++) {
+            if (y == object[i][1] || y == objects[i][3]) {
+                return true;
+            };
+        };
+    };
+    return false;
+};
 
 function update() {
     console.log(x, y, r);
@@ -105,6 +206,17 @@ function update() {
         if (x >= objects[i][2] && r == 180) {
             if (y <= objects[i][1] && y >= objects[i][3] && x <= objects[i][2] + 255) {
                 blue = dec_to_hex(255 - x + objects[i][2]);
+            };
+        };
+        if (y <= objects[i][1] && r == 270) {
+            if (x <= objects[i][0] && x >= objects[i][2] && y >= objects[i][1] - 255) {
+                blue = dec_to_hex(255 + y - objects[i][1]);
+            };
+            continue;
+        };
+        if (y >= objects[i][3] && r == 90) {
+            if (x <= objects[i][0] && x >= objects[i][2] && y <= objects[i][3] + 255) {
+                blue = dec_to_hex(255 - y + objects[i][3]);
             };
         };
     };
